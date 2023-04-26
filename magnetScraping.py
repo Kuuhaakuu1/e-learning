@@ -3,8 +3,12 @@ import string
 import os
 import pymongo
 from bs4 import BeautifulSoup
+from django.shortcuts import render
 
-def search(keyword):
+from login.models import MagnetLinks
+
+
+def searchMagnets(keyword):
     client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
     db = client.get_database("Elearning")
     i=0
@@ -73,4 +77,19 @@ def search(keyword):
     # keywordsWrite.close()
 
 ###################################### test function ######################################
-search("porn")
+
+def findMagnets(request):
+    keyword = 'Java'
+    client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
+    db = client.get_database("Elearning")
+    collectionname = f"magnets{keyword}"
+    collection = db.get_collection(collectionname)
+
+    # Find all documents in the collection
+    documents = collection.find()
+    for document in documents:
+        doc = MagnetLinks(document.title, document.magnet)
+        doc.save()
+    d = MagnetLinks.objects.all()
+    return render(request, 'index.html',{'data': d})
+###################################### test function ######################################
