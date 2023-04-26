@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MagnetLinks for {{keyword}}</title>
+</head>
+<body>
+  <h1>{{keyword}}</h1>
+  <table>
+      <thead>
+      <th>Title</th>
+      <th>Magnet Link</th>
+      </thead>
+
+{% for el in data %}
+      <tr>
+          <td>{{el.name}}</td>
+          <td><button onclick="location.href='{{el.magnet}}'">Open Magnet Link</button></td>
+      </tr>
+{%endfor%}
+ </table>
+</body>
+</html>
