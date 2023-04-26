@@ -91,15 +91,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form>
+                <form action="{% url 'home' %}" method="post">
+                    {% csrf_token %}
                     <div class="modal-body offset-1">
                         <div class="form-group ">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control col-11" id="username" placeholder="Enter your username">
+                            <input type="text" class="form-control col-11" id="username" name="Username" placeholder="Enter your username">
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control col-11" id="password" placeholder="Enter your password">
+                            <input type="password" class="form-control col-11" id="password" name="Password" placeholder="Enter your password">
                         </div>
                        
                         <div class="d-flex  align-items-center">
