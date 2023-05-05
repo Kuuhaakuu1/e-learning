@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import path
-from login.views import findMagnets, index,home
+from login.views import index,home,courses
 
 urlpatterns = [
     path('', index),
-    path('index/',findMagnets),
+    path('courses/',courses,name="courses"),
     path('home/',home,name="home")
    
 ]
