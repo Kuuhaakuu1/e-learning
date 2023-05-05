@@ -116,5 +116,8 @@ def home(request):
             return render(request, 'home.html')
     else :
         return HttpResponse('Data received')
+    
+def courses(request):
+    return render(request, 'courses.html')
 
     

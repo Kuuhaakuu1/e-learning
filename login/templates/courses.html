@@ -67,17 +67,6 @@
                         <li><a class="nav-link" href="#">Courses</a></li>
                         <li><a class="nav-link" href="#">Reaserch</a></li>
 						<li><a class="nav-link" href="#">Contact us</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Dropdown
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                              <a class="dropdown-item" href="#">Option 1</a>
-                              <a class="dropdown-item" href="#">Option 2</a>
-                              <div class="dropdown-divider"></div>
-                              <a class="dropdown-item" href="#">Option 3</a>
-                            </div>
-                        </li>
                     </ul>
                 </div>
                 
@@ -92,7 +81,7 @@
         <div class="offset-md-1 col-lg-10 col-md-10 col-sm-10">
             <form class="form-inline" action="{% url 'courses' %}" >
             <div class=" input-group col-lg-10 col-md-10 col-sm-10 ">
-                <input type="text" name="searchWord" class="form-control " placeholder="Search">
+                <input type="text" class="form-control " placeholder="Search">
                 <div class="input-group-append">
                 <button class="btn search-btn" type="submit">
                     <img src="{% static 'images/search_icon.png' %}" alt="#" />
