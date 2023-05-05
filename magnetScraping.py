@@ -5,7 +5,7 @@ import pymongo
 from bs4 import BeautifulSoup
 from django.shortcuts import render
 
-from login.models import MagnetLinks
+# from login.models import MagnetLinks
 
 
 def searchMagnets(keyword):
@@ -93,3 +93,4 @@ def findMagnets(request):
     d = MagnetLinks.objects.all()
     return render(request, 'index.html',{'data': d})
 ###################################### test function ######################################
+searchMagnets('Typescript')

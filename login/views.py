@@ -1,5 +1,6 @@
 import requests
 import pymongo
+import string
 from bs4 import BeautifulSoup
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -29,12 +30,7 @@ def searchMagnets(keyword):
 
     # Check if the count is greater than 0
     if count >=0:
-    # keywordsRead = open("keywords.txt", "r")
-    # keywordsWrite = open("keywords.txt", "a")
-    # if(keywordCollection.find(keyword)==-1):
         keywordCollection.insert_one({"keyword": keyword})
-        #insert magnet links in database and read from them
-
         response = requests.get(url.format(keyword))
 
         ##############################################################################
@@ -68,13 +64,8 @@ def searchMagnets(keyword):
                             if(str(magnet).find("magnet:")!=-1):
                                 href = magnet['href']
                                 magnetLinks.insert_one({"name":course.text, "magnet": str(href)})
-                                # text_file.write(course.text + '\n')
-                                # text_file2.write(str(href) + '\n')
                                 i+=1
-        # text_file.close()
-        # text_file2.close()
         if(i==0):
-            # print("No magnets found, Sorry!")
             magnetLinks.drop()
             #Need to handle the error in a better way    
     # keywordsRead.close()
@@ -88,6 +79,8 @@ def findMagnets(request):
 
     # collection = db.get_collection(collectionname)
     magnetLinks = db[collectionName].find()
+    channel_Id = 'UC8butISFwT-Wl7EV0hUK0BQ'
+    live_url = f'https://www.youtube.com/embed/live_stream?channel={channel_Id}'
     # Find all documents in the collection
     # documents = collection.find()
     # query = {'status': 'published'}
@@ -96,7 +89,7 @@ def findMagnets(request):
         # doc = MagnetLinks(document.title, document.magnet)
         # doc.save()
     # d = MagnetLinks.objects.all()
-    return render(request, 'index.html',{'data': magnetLinks, 'keyword' : keyword})
+    return render(request, 'index.html',{'data': magnetLinks, 'keyword' : keyword, 'channel_Id' : live_url})
 def home(request):
     #get post data from request
     if request.method == 'POST':
