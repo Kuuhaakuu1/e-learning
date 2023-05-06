@@ -7,6 +7,7 @@ This is an e-learning project built with Django and Docker, with Beautifulsoup u
 To build and use the project with Docker, use the following commands:
 
 To build : `docker-compose -f docker-compose-dev.yml build`
+
 To start : `docker-compose -f docker-compose-dev.yml up`
 
 ## Collaboration
