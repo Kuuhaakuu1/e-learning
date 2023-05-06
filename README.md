@@ -1,6 +1,6 @@
 # e-learning Django Project
 
-This is an e-learning project built with Django and Docker, with Beautifulsoup used to scrape torrent information from Rarbg.
+This is an e-learning project built with Django and Docker, with Beautifulsoup used to scrape torrent information from Rarbg and store them in a mongoDb database.
 
 ## Getting Started
 
