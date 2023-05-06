@@ -5,8 +5,6 @@ from bs4 import BeautifulSoup
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
-from django.contrib.auth.hashers import make_password
-
 
 
 # Create your views here.
@@ -97,7 +95,6 @@ def home(request):
         password = request.POST.get('Password')
         client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
         db = client.get_database("Elearning")
-        
         users = db.users
         user = users.find_one({"username": username, "password": password})
         if user is not None:
@@ -136,12 +133,13 @@ def register(request):
             return render(request, 'register.html', {'show_message': show_message})
         
         # hash password
-        hashed_password = make_password(password)
+       # hashed_password = make_password(password)
+
         
         # insert user data into database
         user_data = {
             'username': username,
-            'password': hashed_password,
+            'password': password,
             'email': email,
             'phone': phone,
             'role': role
@@ -151,3 +149,6 @@ def register(request):
         return render(request, 'home.html', {'show_success': show_success})
         
     return render(request, 'register.html')
+
+def magnetLists(request):
+    return render(request, 'magnetLists.html')
