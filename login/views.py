@@ -67,6 +67,7 @@ def searchMagnets(request):
     # Make a request to the website
     # &order=seeders&by=DESC
     url = 'https://rargb.to/search/?search={}'
+    keyword = string.capwords(keyword)
 
     # Define the regular expression pattern to use in the search
     regex_pattern = f".*{keyword}.*"
@@ -76,7 +77,7 @@ def searchMagnets(request):
     magnetLinks = db[f"magnets{keyword}"]
 
     # Check if the count is greater than 0
-    if count >=0:
+    if count ==0:
         db["keywords"].insert_one({"keyword": keyword})
         response = requests.get(url.format(keyword))
 
