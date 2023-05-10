@@ -83,20 +83,22 @@
                   <thead>
                     <tr>
                       <th>Title</th>
-                      <th>Size</th>
+                      <!-- <th>Size</th> -->
                       <th>Magnet Link</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {% for item in items %}
+                    {% for item in data %}
                     <tr>
-                      <td>{{ item.title }}</td>
-                      <td>{{ item.size }}</td>
-                      <td><a href="{{ item.magnet_link }}">{{ item.magnet_link }}</a></td>
+                      <td>{{ item.name}}</td>
+                      <!-- <td>{{ item.size }}</td> -->
+                      <td><a href="{{ item.magnet}}">Link</a></td>
                     </tr>
                     {% endfor %}
                   </tbody>
                 </table>
+                <br/>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/live_stream?channel=UC19xVA7y77LDXh2DO0PN4bA" frameborder="0" allowfullscreen></iframe>
               </div>
             </div>
         </div>
