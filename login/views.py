@@ -270,3 +270,6 @@ def register(request):
 
 def magnetLists(request):
     return render(request, 'magnetLists.html')
+
+def streaming(request):
+    return render(request, 'streaming.html')
