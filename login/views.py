@@ -362,3 +362,5 @@ def edit(request,uid ):
     else:
         print("user not found")
     return render(request, 'edit.html')
+def streaming(request):
+    return render(request, 'streaming.html')

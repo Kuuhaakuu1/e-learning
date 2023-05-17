@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <!-- Site Metas -->
-    <title>E-learning</title>
+    <title>Perfect - Responsive HTML5 Template</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -65,7 +65,7 @@
                         <li><a class="nav-link active" href="#">Home</a></li>
                         <li><a class="nav-link" href="#">About</a></li>
                         <li><a class="nav-link" href="#">Courses</a></li>
-                        <li><a class="nav-link" href="/login/streaming">Streaming</a></li>
+                        <li><a class="nav-link" href="#">Reaserch</a></li>
 						<li><a class="nav-link" href="#">Contact us</a></li>
                     </ul>
                 </div>
@@ -74,133 +74,26 @@
         </nav>
     </header>
     <!-- End header -->
+    <!-- Start REGISTER -->
+    
+    {% block content %}
+    <div class="container justify-content-center " style="display: flex; align-items: center;height: 100vh;">
+      <div class="row justify-content-center">
+        <div class="">
+          <div class="card ">
 
-     <!-- section -->
-     <div class="container" style="margin-bottom: -10px;margin-top: 120px; ">
-        <div class="row justify-content-center">
-        <div class="offset-md-1 col-lg-10 col-md-10 col-sm-10">
-            <form class="form-inline" action="{% url 'study' %}" method="post">
-            {% csrf_token %}
-            <div class=" input-group col-lg-10 col-md-10 col-sm-10 ">
-                <input type="text" class="form-control " name="keyword" placeholder="Search">
-                <div class="input-group-append">
-                <button class="btn search-btn" type="submit">
-                    <img src="{% static 'images/search_icon.png' %}" alt="#" />
-                </button>
-                </div>
-            </div>
-            </form>
+            <h1 style="text-align: center;">Live Stream To study</h1>
+            <iframe width="720" height="480" src="https://www.youtube.com/embed/live_stream?channel=UC19xVA7y77LDXh2DO0PN4bA" frameborder="0" allowfullscreen></iframe>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-    <!-- end section -->
-       
-    <div class="section layout_padding">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="full">
-                        <div class="heading_main">
-						   <h2><span>Web </span>Development</h2>
-                        </div>
-					  </div>
-                </div>
-                
-				
-                <div class="col-md-4">
-                    <a href="#">
-                        <div class="full blog_img_popular">
-                            <img class="img-responsive" src="{% static 'images/react.jpg' %}" alt="#" />
-                            <h4>React Fundamentals</h4>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="#">
-                        <div class="full blog_img_popular">
-                            <img class="img-responsive" src="{% static 'images/asp.net.jpg' %}" alt="#" />
-                            <h4>Asp.net Framework</h4>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="col-md-4">
-                    <a href="#">
-                        <div class="full blog_img_popular">
-                            <img class="img-responsive" src="{% static 'images/laravel.jpg' %}" alt="#" />
-                            <h4>Laravel Framework</h4>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="#">
-                        <div class="full blog_img_popular">
-                            <img class="img-responsive" src="{% static 'images/spring.jpg' %}" alt="#" />
-                            <h4>Spring Framework</h4>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-12">
-                    <div class="full">
-                        <div class="heading_main">
-						   <h2><span>Mobile </span>Development</h2>
-                        </div>
-					  </div>
-                </div>
-                <div class="col-md-4">
-                    <a href="#">
-                        <div class="full blog_img_popular">
-                            <img class="img-responsive" src="{% static 'images/reactNative.jpg' %}" alt="#" />
-                            <h4>React Native Development</h4>
-                        </div>
-                    </a>
-                </div>
-               
-                <div class="col-md-12">
-                    <div class="full">
-                        <div class="heading_main">
-						   <h2><span>Programming  </span>Languages</h2>
-                        </div>
-					  </div>
-                </div>
-                <div class="col-md-4">
-                    <a href="#">
-                        <div class="full blog_img_popular">
-                            <img class="img-responsive" src="{% static 'images/cpp.jpg' %}" alt="#" />
-                            <h4>C-- Fundamentals</h4>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="#">
-                        <div class="full blog_img_popular">
-                            <img class="img-responsive" src="{% static 'images/c#.jpg' %}" alt="#" />
-                            <h4>C# Fundamentals</h4>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="#">
-                        <div class="full blog_img_popular">
-                            <img class="img-responsive" src="{% static 'images/typescript.jpg' %}" alt="#" />
-                            <h4>Typescript Fundamentals</h4>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="col-md-4">
-                    <a href="#">
-                        <div class="full blog_img_popular">
-                            <img class="img-responsive" src="{% static 'images/sql.jpg' %}" alt="#" />
-                            <h4>SQL Fundamentals</h4>
-                        </div>
-                    </a>
-                </div>
-                
-            </div>
-        </div>
-    </div>
+    
+    {% endblock %}
 
+    <!-- END REGISTER -->
+
+     
 	<!-- section -->
     <div class="section layout_padding padding_bottom-0">
         <div class="container">
@@ -447,6 +340,15 @@ jQuery(function ($) {
 	$this.countTo(options);
   }
 });
+
+function registering(event) {
+                                if(username == "" || password == "" || email == "" || phone == "" || role == ""){
+                                    alert("Please fill all the fields");
+                                }
+                                else{
+                                    alert("User registered successfully");
+                                }
+                            }
 	</script>
 
 </body>
