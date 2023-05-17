@@ -1,3 +1,4 @@
+import math
 import requests
 import pymongo
 import string
@@ -7,7 +8,10 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from .models import MagnetLinks
+from django.core.paginator import Paginator
+from bson import ObjectId
 
+client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
 
 # Create your views here.
 def index(request):
@@ -61,7 +65,6 @@ def index(request):
     
 def searchMagnets(request):
     keyword = request.POST.get('keyword')
-    client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
     db = client.get_database("Elearning")
     i=0
     # Make a request to the website
@@ -186,7 +189,6 @@ def searchMagnets(request):
 
 def findMagnets(request):
     keyword = 'Java'
-    client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
     db = client.get_database("Elearning")
     collectionName = f"magnets{keyword}"
 
@@ -211,12 +213,20 @@ def home(request):
     if request.method == 'POST':
         username = request.POST.get('Username')
         password = request.POST.get('Password')
-        client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
         db = client.get_database("Elearning")
         users = db.users
         user = users.find_one({"username": username, "password": password})
         if user is not None:
-            return render(request, 'home.html')
+            user_id = user.get("_id")
+            try:
+                request.session.pop('userId', None)
+            except KeyError:
+                pass
+            request.session['userId'] = str(user_id) 
+            
+            if user.get("role") == "admin":
+                return render(request, 'admin.html', {'id': user_id})
+            return render(request, 'home.html', {'id': user_id})
         else:
             show_alert = True  # add a variable to track whether to show the alert or not
             return render(request, 'login.html', {'show_alert': show_alert})
@@ -243,7 +253,6 @@ def register(request):
             return render(request, 'register.html')
         
         # check if user already exists
-        client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
         db = client.get_database('Elearning')
         users = db.users
         if users.find_one({'username': username}):
@@ -271,5 +280,87 @@ def register(request):
 def magnetLists(request):
     return render(request, 'magnetLists.html')
 
+def teachers(request):
+    user_id = request.session.get('userId')
+   
+    if not user_id:
+        return redirect('home')
+
+    db = client.get_database("Elearning")
+    collection = db["users"]
+    page_number = int(request.GET.get('page', 1))  # Get the page number from the request
+
+    # Set the number of items per page and calculate the skip value
+    per_page = 7
+    skip = (page_number - 1) * per_page
+
+    # Retrieve the teachers for the current page
+    teachers_cursor = collection.find({"role": "teacher"}).skip(skip).limit(per_page)
+    teachers = list(teachers_cursor)
+    
+   
+    for teacher in teachers:
+        # Set the teacher id from _id to id
+        teacher["id"] = str(teacher["_id"])
+    # Calculate the maximum number of pages
+
+    total_teachers = collection.count_documents({"role": "teacher"})
+    max_pages = math.ceil(total_teachers / per_page)
+
+    return render(request, "teachers.html", {"teachers": teachers, "page_number": page_number, "max_pages": max_pages})
+
+def students(request):
+    user_id = request.session.get('userId')
+    
+    if not user_id:
+        return redirect('home')
+
+    db = client.get_database("Elearning")
+    collection = db["users"]
+    page_number = int(request.GET.get('page', 1))  # Get the page number from the request
+
+    # Set the number of items per page and calculate the skip value
+    per_page = 7
+    skip = (page_number - 1) * per_page
+
+    # Retrieve the teachers for the current page
+    students = collection.find({"role": "student"}).skip(skip).limit(per_page)
+    total_teachers = collection.count_documents({"role": "student"})
+    
+    # Calculate the maximum number of pages
+    max_pages = math.ceil(total_teachers / per_page)
+
+    return render(request, "students.html", {"students": students, "page_number": page_number, "max_pages": max_pages})
+
+
+
+
+
+def logout(request):
+    try:
+        del request.session['userId']  # Remove the 'user_id' key from the session
+       
+    except KeyError:
+       
+        pass  # No need to handle the KeyError if the key doesn't exist
+    return redirect('home')
+
+def edit(request,uid ):
+    db = client.get_database("Elearning")
+    collection = db["users"]
+
+    # Find the user by UID
+    uid_object = ObjectId(uid)
+
+    # Find the user by UID
+    user = collection.find_one({"_id": uid_object})
+    if user is not None:
+        user_id = user.get("_id")
+        user["id"] = str(user["_id"])
+        print("user_id : ",user_id)
+        return render(request, 'edit.html', {'user': user})
+    else:
+        print("user not found")
+    return render(request, 'edit.html')
 def streaming(request):
     return render(request, 'streaming.html')

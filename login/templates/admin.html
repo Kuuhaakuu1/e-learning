@@ -44,7 +44,7 @@
     <!-- LOADER -->
     <div id="preloader">
         <div class="loader">
-            <img src="{% static 'images/loader.gif' %} " alt="#" />
+            <img src="{% static 'images/loader.gif' %}" alt="#" />
         </div>
     </div>
     <!-- end loader -->
@@ -65,8 +65,20 @@
                         <li><a class="nav-link active" href="#">Home</a></li>
                         <li><a class="nav-link" href="#">About</a></li>
                         <li><a class="nav-link" href="#">Courses</a></li>
-                        <li><a class="nav-link" href="/login/streaming">Streaming</a></li>
+                        <li><a class="nav-link" href="#">Reaserch</a></li>
 						<li><a class="nav-link" href="#">Contact us</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Menu
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="#">profile</a>
+                              <a class="dropdown-item" href="{% url 'teacher' %}">teachers</a>
+                              <a class="dropdown-item" href="{% url 'student' %}">students</a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" href="{% url 'logout' %}"> logout </a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
                 
@@ -79,10 +91,9 @@
      <div class="container" style="margin-bottom: -10px;margin-top: 120px; ">
         <div class="row justify-content-center">
         <div class="offset-md-1 col-lg-10 col-md-10 col-sm-10">
-            <form class="form-inline" action="{% url 'study' %}" method="post">
-            {% csrf_token %}
+            <form class="form-inline" action="{% url 'courses' %}" >
             <div class=" input-group col-lg-10 col-md-10 col-sm-10 ">
-                <input type="text" class="form-control " name="keyword" placeholder="Search">
+                <input type="text" name="searchWord" class="form-control " placeholder="Search">
                 <div class="input-group-append">
                 <button class="btn search-btn" type="submit">
                     <img src="{% static 'images/search_icon.png' %}" alt="#" />
