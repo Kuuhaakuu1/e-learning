@@ -103,12 +103,18 @@
             
             <div class="card-body">
                 
-              <form method="POST" action="{% url 'register' %}">
+              <form method="POST" action="{% url 'edited' %}">
                 {% csrf_token %}
+                <div class="form-group row d-none">
+                    <label for="userid" class="col-md-4 col-form-label text-md-right">Id</label>
+                    <div class="col-md-6">
+                        <input id="userid" type="text" class="form-control" value="{{user.id}}" name="useRId"  required autofocus>
+                    </div>
+                </div>
                 <div class="form-group row">
                   <label for="username" class="col-md-4 col-form-label text-md-right">Username</label>
                   <div class="col-md-6">
-                    <input id="username" type="text" class="form-control" value="{{user.username}}" name="username" required autofocus>
+                    <input id="usename" type="text" class="form-control" value="{{user.username}}" name="username" required autofocus>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -138,10 +144,27 @@
                       <option value="teacher" {% if user.role == 'teacher' %}selected{% endif %}>Teacher</option>
                     </select>
                   </div>
+                  
                 </div>
+                {% if user.role == 'student' %}
+                <div class="form-group row" id="channel"  style="visibility: hidden; ">
+                    <label for="channel_id" class="col-md-4 col-form-label text-md-right">Channel Id</label>
+                    <div class="col-md-6">
+                      <input id="channel_id" type="text" class="form-control" name="channel_id">
+                    </div>
+                </div>
+                {% endif %}
+                {% if user.role == 'teacher' %}
+                <div class="form-group row" id="channel"  >
+                    <label for="channel_id" class="col-md-4 col-form-label text-md-right">Channel Id</label>
+                    <div class="col-md-6">
+                      <input id="channel_id" type="text" class="form-control" name="channel_id">
+                    </div>
+                </div>
+                {% endif %}
                 <div class="form-group row mb-0">
-                  <div class="col-md-6  d-flex justify-content-center">
-                    <button type="submit" onclick="registering()" class="btn btn-primary">
+                  <div class="col-md-6 offset-md-3  d-flex justify-content-center">
+                    <button type="submit" onclick="registering()" class="btn btn-warning text-white " style="padding-right: 25px; padding-left: 25px;">
                       Edit user
                     </button>
                   </div>
@@ -298,6 +321,19 @@
     <script src="{% static 'js/isotope.min.js' %} "></script>
     <script src="{% static 'js/images-loded.min.js' %} "></script>
     <script src="{% static 'js/custom.js' %} "></script>
+    <script>
+        const roleSelect = document.getElementById('role');
+        const secondDiv = document.getElementById('channel');
+      
+        roleSelect.addEventListener('change', function() {
+          if (roleSelect.value === 'teacher') {
+            secondDiv.style.visibility = 'visible';
+          } else {
+            secondDiv.style.visibility = 'hidden';
+          }
+        });
+      </script>
+
 	<script>
 	/* counter js */
     for (let button of document.querySelectorAll('#loginButton')) {
@@ -411,7 +447,7 @@ function registering(event) {
                                     alert("Please fill all the fields");
                                 }
                                 else{
-                                    alert("User registered successfully");
+                                    alert("User updated successfully");
                                 }
                             }
 	</script>
