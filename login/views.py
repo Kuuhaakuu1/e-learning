@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from .models import MagnetLinks
 from django.core.paginator import Paginator
+from bson import ObjectId
 
 client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
 
@@ -349,9 +350,13 @@ def edit(request,uid ):
     collection = db["users"]
 
     # Find the user by UID
-    user = collection.find_one({"_id": uid})
+    uid_object = ObjectId(uid)
+
+    # Find the user by UID
+    user = collection.find_one({"_id": uid_object})
     if user is not None:
         user_id = user.get("_id")
+        user["id"] = str(user["_id"])
         print("user_id : ",user_id)
         return render(request, 'edit.html', {'user': user})
     else:
