@@ -389,6 +389,56 @@ def edit(request,uid ):
     else:
         print("user not found")
     return render(request, 'edit.html')
+
+
+def edited(request):
+    db = client.get_database("Elearning")
+    collection = db["users"]
+    if request.method == 'POST':
+        # Get the user ID from the form or request data
+
+        user_id = request.POST.get('useRId')
+        uid_object = ObjectId(user_id)
+        print("user_id azeazea: ",request.POST.get('useRId'))
+
+       
+        
+        updated_username = request.POST.get('username')
+        updated_password = request.POST.get('password')
+        updated_email = request.POST.get('email')
+        updated_phone = request.POST.get('phone')
+        updated_role = request.POST.get('role')
+        updated_channel_id = request.POST.get('channel_id')
+
+        
+        
+        
+
+        # Delete the existing user
+        
+        
+        # Create a new document with the updated data
+        new_user = {
+            "_id": uid_object,
+            "username": updated_username,
+            "password": updated_password,
+            "email": updated_email,
+            "phone": updated_phone,
+            "role": updated_role,
+            "channel_id": updated_channel_id
+        }
+
+        # Insert the new user document
+        # collection.delete_one({"_id": uid_object})
+        # collection.insert_one(new_user)
+        collection.update_one({"_id": uid_object}, {"$set": new_user})
+
+        # Redirect or render a success message
+        return redirect(updated_role)  # Replace 'home' with the appropriate URL name
+
+    # Handle GET request or render an error message
+    return HttpResponse("Invalid request method.")
+
 def streaming(request):
     client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
     db = client.get_database("Elearning")
@@ -398,3 +448,12 @@ def streaming(request):
     channel_id = "https://www.youtube.com/embed/live_stream?channel=" + streamKey
     stream = {"channel_Id" : channel_id}
     return render(request, 'streaming.html', stream)
+
+
+def deleteTeacher(request,uid):
+    db = client.get_database("Elearning")
+    collection = db["users"]
+
+    collection.delete_one({"_id":ObjectId(uid)})
+
+    return redirect("teacher")

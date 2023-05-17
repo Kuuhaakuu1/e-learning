@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from login.views import index,home,courses,register,searchMagnets,teachers,logout,students,edit,streaming
+from login.views import index,home,courses,register,searchMagnets,teachers,logout,students,edit,streaming,edited,deleteTeacher
 
 urlpatterns = [
     path('', index),
@@ -19,5 +19,8 @@ urlpatterns = [
     path('home/teacher/', teachers, name='teacher'),
     path('home/students/', students, name='student'),
     path('logout/', logout, name='logout'),
+    path('edited/', edited, name='edited'),
+    path('delete/<slug:uid>/', deleteTeacher, name='delete'),
+
    
 ]
