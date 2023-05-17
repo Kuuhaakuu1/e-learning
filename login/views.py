@@ -217,13 +217,11 @@ def home(request):
         user = users.find_one({"username": username, "password": password})
         if user is not None:
             user_id = user.get("_id")
-            print("user_id : ",user_id)
             try:
                 request.session.pop('userId', None)
             except KeyError:
                 pass
             request.session['userId'] = str(user_id) 
-            print("alright : ",request.session.get('userId'))
             
             if user.get("role") == "admin":
                 return render(request, 'admin.html', {'id': user_id})
@@ -283,7 +281,7 @@ def magnetLists(request):
 
 def teachers(request):
     user_id = request.session.get('userId')
-    print("alright : ", user_id)
+   
     if not user_id:
         return redirect('home')
 
@@ -296,17 +294,23 @@ def teachers(request):
     skip = (page_number - 1) * per_page
 
     # Retrieve the teachers for the current page
-    teachers = collection.find({"role": "teacher"}).skip(skip).limit(per_page)
-    total_teachers = collection.count_documents({"role": "teacher"})
-
+    teachers_cursor = collection.find({"role": "teacher"}).skip(skip).limit(per_page)
+    teachers = list(teachers_cursor)
+    
+   
+    for teacher in teachers:
+        # Set the teacher id from _id to id
+        teacher["id"] = str(teacher["_id"])
     # Calculate the maximum number of pages
+
+    total_teachers = collection.count_documents({"role": "teacher"})
     max_pages = math.ceil(total_teachers / per_page)
 
     return render(request, "teachers.html", {"teachers": teachers, "page_number": page_number, "max_pages": max_pages})
 
 def students(request):
     user_id = request.session.get('userId')
-    print("alright : ", user_id)
+    
     if not user_id:
         return redirect('home')
 
@@ -321,7 +325,7 @@ def students(request):
     # Retrieve the teachers for the current page
     students = collection.find({"role": "student"}).skip(skip).limit(per_page)
     total_teachers = collection.count_documents({"role": "student"})
-
+    
     # Calculate the maximum number of pages
     max_pages = math.ceil(total_teachers / per_page)
 
@@ -334,8 +338,22 @@ def students(request):
 def logout(request):
     try:
         del request.session['userId']  # Remove the 'user_id' key from the session
-        print("alright : ",request.session.get('userId'))
+       
     except KeyError:
-        print("alright : ")
+       
         pass  # No need to handle the KeyError if the key doesn't exist
     return redirect('home')
+
+def edit(request,uid ):
+    db = client.get_database("Elearning")
+    collection = db["users"]
+
+    # Find the user by UID
+    user = collection.find_one({"_id": uid})
+    if user is not None:
+        user_id = user.get("_id")
+        print("user_id : ",user_id)
+        return render(request, 'edit.html', {'user': user})
+    else:
+        print("user not found")
+    return render(request, 'edit.html')
