@@ -97,7 +97,7 @@
               
               <td>
                 <a href="{% url 'edit' teacher.id %}" class="btn"><i class="fas fa-edit"></i></a>
-                <a href="{% url 'delete' teacher.id %}" class="btn"><i class="fas fa-trash-alt"></i></a>
+                <a href="{% url 'deleteTeacher' teacher.id %}" class="btn"><i class="fas fa-trash-alt"></i></a>
               </td>
             </tr>
             {% endfor %}

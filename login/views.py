@@ -349,13 +349,18 @@ def students(request):
     # Set the number of items per page and calculate the skip value
     per_page = 7
     skip = (page_number - 1) * per_page
-
+    
     # Retrieve the teachers for the current page
-    students = collection.find({"role": "student"}).skip(skip).limit(per_page)
-    total_teachers = collection.count_documents({"role": "student"})
+    students_cursor = collection.find({"role": "student"}).skip(skip).limit(per_page)
+    students = list(students_cursor)
+    
+    for student in students:
+        # Set the teacher id from _id to id
+        student["id"] = str(student["_id"])
+    total_students = collection.count_documents({"role": "student"})
     
     # Calculate the maximum number of pages
-    max_pages = math.ceil(total_teachers / per_page)
+    max_pages = math.ceil(total_students / per_page)
 
     return render(request, "students.html", {"students": students, "page_number": page_number, "max_pages": max_pages})
 
@@ -451,6 +456,14 @@ def streaming(request):
 
 
 def deleteTeacher(request,uid):
+    db = client.get_database("Elearning")
+    collection = db["users"]
+
+    collection.delete_one({"_id":ObjectId(uid)})
+
+    return redirect("teacher")
+
+def deleteStudent(request,uid):
     db = client.get_database("Elearning")
     collection = db["users"]
 

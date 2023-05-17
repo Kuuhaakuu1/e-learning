@@ -95,8 +95,8 @@
               <td>{{ student.email }}</td>
               <td>{{ student.phone }}</td>
               <td>
-                <a href="" class="btn "><i class="fas fa-edit"></i></a>
-                <a href="" class="btn"><i class="fas fa-trash-alt"></i></a>
+                <a href="{% url 'edit' student.id %}" class="btn"><i class="fas fa-edit"></i></a>
+                <a href="{% url 'deleteStudent' student.id %}" class="btn"><i class="fas fa-trash-alt"></i></a>
             </td>
             </tr>
             {% endfor %}
