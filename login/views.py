@@ -281,6 +281,24 @@ def register(request):
             'channel_id': streamingId
         }
         users.insert_one(user_data)
+        user = users.find_one({"username": username, "password": password})
+        if user is not None:
+            user_id = user.get("_id")
+            try:
+                request.session.pop('userId', None)
+            except KeyError:
+                pass
+            request.session['userId'] = str(user_id) 
+            
+            if user.get("role") == "admin":
+                return render(request, 'admin.html', {'id': user_id})
+            if user.get("role") == "teacher":
+                try:
+                    request.session.pop('userId', None)
+                except KeyError:
+                    pass
+                request.session['channelID'] = str(user.get("channel_id")) 
+                print(request.session.get('channelID'))
         show_success = True  # add a variable to track whether to show the alert or not
         return render(request, 'home.html', {'show_success': show_success})
         
