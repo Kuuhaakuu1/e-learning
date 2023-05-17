@@ -226,11 +226,18 @@ def home(request):
             
             if user.get("role") == "admin":
                 return render(request, 'admin.html', {'id': user_id})
+            if user.get("role") == "teacher":
+                try:
+                    request.session.pop('userId', None)
+                except KeyError:
+                    pass
+                request.session['channelID'] = str(user.get("channel_id")) 
+                print(request.session.get('channelID'))
             return render(request, 'home.html', {'id': user_id})
         else:
             show_alert = True  # add a variable to track whether to show the alert or not
             return render(request, 'login.html', {'show_alert': show_alert})
-    
+        
     else:
         return render(request, 'login.html')   
 
@@ -246,9 +253,10 @@ def register(request):
         email = request.POST.get('email')
         phone = request.POST.get('phone')
         role = request.POST.get('role')
+        streamingId = request.POST.get('channel_id')
         
         # validate form data
-        if not username or not password or not email or not phone or not role:
+        if not username or not password or not email or not phone or not role :
             messages.error(request, 'Please fill all required fields')
             return render(request, 'register.html')
         
@@ -269,7 +277,8 @@ def register(request):
             'password': password,
             'email': email,
             'phone': phone,
-            'role': role
+            'role': role,
+            'channel_id': streamingId
         }
         users.insert_one(user_data)
         show_success = True  # add a variable to track whether to show the alert or not
@@ -363,4 +372,11 @@ def edit(request,uid ):
         print("user not found")
     return render(request, 'edit.html')
 def streaming(request):
-    return render(request, 'streaming.html')
+    client = pymongo.MongoClient("mongodb+srv://admin:S0uf14n3_0m4R_$44d@elearning.i6x9053.mongodb.net/test")
+    db = client.get_database("Elearning")
+    channel = db["users"].find_one({"username": "soufiane"})["channel_id"]
+    # channel_id = {'channel_Id' : channel}
+    streamKey = request.session.get('channelID')
+    channel_id = "https://www.youtube.com/embed/live_stream?channel=" + streamKey
+    stream = {"channel_Id" : channel_id}
+    return render(request, 'streaming.html', stream)
